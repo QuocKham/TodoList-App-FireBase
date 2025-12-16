@@ -25,7 +25,7 @@ import { SettingsModal } from '../components/SettingsModal';
 import { AuthScreen } from '../components/AuthScreen';
 
 export default function TodoApp() {
-  // --- STATE ---
+  // STATE
   const [user, setUser] = useState<User | null>(null);
   const [notes, setNotes] = useState<Note[]>([]);
   const [loading, setLoading] = useState(true);
@@ -33,7 +33,7 @@ export default function TodoApp() {
   // UI Control
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   
-  // Sort: Chỉ còn Mới nhất (newest) hoặc Cũ nhất (oldest)
+  // Sort Time
   const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
   
   const [filterMode, setFilterMode] = useState<'all' | 'completed' | 'pinned'>('all');
@@ -49,7 +49,7 @@ export default function TodoApp() {
   const [password, setPassword] = useState('');
   const [authError, setAuthError] = useState('');
 
-  // --- EFFECTS ---
+  // EFFECTS
   useEffect(() => {
     if (!auth) return;
     const unsubscribe = onAuthStateChanged(auth, (u) => { 
@@ -74,13 +74,12 @@ export default function TodoApp() {
     return () => unsubscribe();
   }, [user]);
 
-  // --- LOGIC LỌC VÀ TÌM KIẾM ---
+  // LOGIC LỌC VÀ TÌM KIẾM
   const getProcessedNotes = () => {
-    // 1. Lọc theo Tab (All / Completed / Pinned)
     let filtered = notes.filter(n => {
       if (filterMode === 'completed') return n.completed;
       if (filterMode === 'pinned') return n.isPinned;
-      return true; // 'all'
+      return true;
     });
 
     // 2. Lọc theo thanh tìm kiếm
@@ -91,22 +90,21 @@ export default function TodoApp() {
       );
     }
 
-    // 3. Sắp xếp (Chỉ theo thời gian)
+    // 3. Sắp xếp
     return filtered.sort((a, b) => {
-      // Luôn ưu tiên ghim lên đầu nếu đang ở tab 'all'
       if (filterMode === 'all' && a.isPinned !== b.isPinned) return a.isPinned ? -1 : 1;
       
       const timeA = a.createdAt?.seconds || 0;
       const timeB = b.createdAt?.seconds || 0;
 
-      // Logic sort mới: Newest (B - A), Oldest (A - B)
+
       return sortOrder === 'newest' ? (timeB - timeA) : (timeA - timeB);
     });
   };
 
   const processedNotes = getProcessedNotes();
 
-  // --- HANDLERS ---
+  // HANDLERS
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault(); 
     setAuthError('');
@@ -136,7 +134,7 @@ export default function TodoApp() {
     } catch (e) { console.error(e); }
   };
 
-  // --- RENDER ---
+  // RENDER
   if (loading) return (
     <div className="flex h-screen items-center justify-center bg-slate-50">
       <Loader2 className="h-10 w-10 animate-spin text-blue-600"/>
@@ -170,12 +168,12 @@ export default function TodoApp() {
         {/* HEADER */}
         <header className="flex h-16 items-center justify-between border-b border-slate-200 bg-white px-6 shadow-sm z-10 gap-4">
           
-          {/* Tiêu đề Bộ lọc (Góc trái) */}
+          {/* Tiêu đề Bộ lọc */}
           <div className="hidden md:block w-32 font-bold text-xl text-slate-800">
             {filterMode === 'all' ? 'Tất cả' : filterMode === 'completed' ? 'Đã xong' : 'Đã ghim'}
           </div>
 
-          {/* THANH TÌM KIẾM (CENTER) */}
+          {/* THANH TÌM KIẾM */}
           <div className="flex-1 max-w-md relative">
             <div className="relative group">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -191,7 +189,7 @@ export default function TodoApp() {
             </div>
           </div>
 
-          {/* CÔNG CỤ & PROFILE (GÓC PHẢI) */}
+          {/* CÔNG CỤ & PROFILE */}
           <div className="flex items-center gap-2">
             
             {/* View Mode */}
@@ -199,7 +197,7 @@ export default function TodoApp() {
               {viewMode === 'grid' ? <List size={20}/> : <Grid size={20}/>}
             </button>
             
-            {/* Sort Button (Chỉ Time) */}
+            {/* Sort Button */}
             <button 
               onClick={() => setSortOrder(sortOrder === 'newest' ? 'oldest' : 'newest')} 
               className="flex items-center gap-1 rounded-lg p-2 text-slate-500 hover:bg-slate-100" 
@@ -219,7 +217,7 @@ export default function TodoApp() {
             {/* Vạch ngăn cách */}
             <div className="h-6 w-px bg-slate-200 mx-1"></div>
 
-            {/* Profile User (Góc phải) */}
+            {/* Profile User */}
             <div className="flex items-center gap-2 pl-1 cursor-pointer" onClick={() => setSettingsOpen(true)}>
                <div className="hidden lg:block text-right">
                  <p className="text-sm font-bold text-slate-800 leading-none">{user.displayName || "User"}</p>
@@ -283,7 +281,7 @@ export default function TodoApp() {
         onSave={handleSave}
       />
       
-      {/* SETTINGS MODAL ĐÃ UPDATE */}
+      {/* SETTINGS MODAL */}
       <SettingsModal 
         isOpen={isSettingsOpen} 
         onClose={() => setSettingsOpen(false)} 
@@ -292,8 +290,8 @@ export default function TodoApp() {
         onUpdateName={async (name: string) => { 
           if(user) {
              await updateProfile(user, {displayName: name});
-             setSettingsOpen(false); // Đóng modal
-             window.location.reload(); // Reload trang
+             setSettingsOpen(false);
+             window.location.reload();
           } 
         }}
       />
