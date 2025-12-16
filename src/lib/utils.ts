@@ -1,6 +1,4 @@
 // --- ASSETS & CONFIG ---
-
-// Bạn thay link ảnh ở đây
 export const ASSETS = {
   BACKGROUND_URL: "/img/background.jpg", 
   LOGO_URL: "/img/logo.png"
