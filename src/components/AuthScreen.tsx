@@ -29,14 +29,14 @@ export const AuthScreen = ({
 
       <div className="relative z-10 w-full max-w-md p-4">
         <div className="relative rounded-3xl bg-white/90 p-8 pt-16 shadow-2xl backdrop-blur-md">
-          <div className="absolute -top-16 left-1/2 -translate-x-1/2 transform">
+          <div className="absolute -top-7 left-1/2 -translate-x-1/2 transform">
              <AppLogo size={24} />
           </div>
 
           <h2 className="mb-2 text-center text-2xl font-bold text-slate-800">
             {authMode === 'login' ? 'Chào mừng trở lại!' : 'Tạo tài khoản mới'}
           </h2>
-          <p className="mb-6 text-center text-sm text-slate-500">Todo Pro Max - Quản lý công việc</p>
+          <p className="mb-5 text-center text-sm text-slate-500">Todo Pro Max - Quản lý công việc</p>
 
           {authError && <div className="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-600 text-center">{authError}</div>}
 
@@ -54,7 +54,7 @@ export const AuthScreen = ({
             <div className="h-px flex-1 bg-slate-200"></div>
           </div>
 
-          {/* Chỉ còn nút Google */}
+          {/* nút Google */}
           <button onClick={handleGoogleLogin} className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-100 bg-white py-2.5 hover:bg-slate-50 shadow-sm transition-all">
             <img src="https://www.google.com/favicon.ico" className="h-5 w-5"/> <span className="text-sm font-bold text-slate-600">Tiếp tục với Google</span>
           </button>

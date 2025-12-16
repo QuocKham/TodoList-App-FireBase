@@ -112,8 +112,6 @@ export const SettingsModal = ({
             </div>
           </div>
           
-          {/* Đã xóa phần Dark Mode ở đây */}
-          
           <div className="border-t border-slate-100 pt-4">
              <button 
                onClick={onLogout} 

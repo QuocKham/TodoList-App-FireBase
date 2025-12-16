@@ -49,7 +49,7 @@ export const Sidebar = ({ currentFilter, setFilter, onAdd, onSettings }: Sidebar
 
         <div className="h-px w-8 bg-slate-200 my-2"></div>
 
-        {/* Nút Thêm mới */}
+        {/* Nút add */}
         <button 
           onClick={onAdd}
           className="group relative flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-xl transition-transform hover:scale-110 active:scale-95"
